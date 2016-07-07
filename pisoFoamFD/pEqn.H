@@ -19,7 +19,7 @@ while (piso.correctNonOrthogonal())
 
     fvScalarMatrix pEqn
     (
-        fvm::laplacian(rAU, p) == fvc::div(phiHbyA)
+        fvm::laplacian(rAU, p) == fvc::div(phiHbyA) + fvc::div(lambda*rAU*f)
     );
 
     pEqn.setReference(pRefCell, pRefValue);
@@ -34,6 +34,9 @@ while (piso.correctNonOrthogonal())
 
 #include "continuityErrs.H"
 
-U = HbyA - rAU*fvc::grad(p);
+U = HbyA - rAU*fvc::grad(p) + lambda*rAU*f;
 U.correctBoundaryConditions();
+
+f =lambda*( f + alpha/runTime.time() * (Ui - U) );
+
 fvOptions.correct(U);

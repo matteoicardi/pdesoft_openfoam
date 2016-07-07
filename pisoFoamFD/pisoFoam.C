@@ -58,6 +58,12 @@ int main(int argc, char *argv[])
 
     Info<< "\nStarting time loop\n" << endl;
 
+    scalar alpha=0.5;
+
+    volVectorField Ui("Ui",U);
+    vector vec(0,0,0);
+    Ui.internalField()=vec;
+
     while (runTime.loop())
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;
@@ -88,7 +94,7 @@ int main(int argc, char *argv[])
     Info<< "End\n" << endl;
 
     return 0;
-}
+};
 
 
 // ************************************************************************* //
