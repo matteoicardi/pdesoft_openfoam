@@ -87,6 +87,14 @@ IOdictionary fdDict
 
 word fdName_( fdDict.lookup("fdName") );
 
+dimensionedVector solidvel("vel", dimVelocity, fdDict.lookup("solidVel"));
+
+bool use_stl(fdDict.lookup("useSTL"));
+
+scalar alpha=readScalar(fdDict.lookup("alpha"));
+
+if (use_stl)
+{
 triSurfaceMesh fdSurf_
 (
     IOobject
@@ -113,4 +121,5 @@ forAll(mesh.C(),cellI)
     {
         lambda[cellI] = 1.;
     }
+}
 }

@@ -37,6 +37,6 @@ while (piso.correctNonOrthogonal())
 U = HbyA - rAU*fvc::grad(p) + lambda*rAU*f;
 U.correctBoundaryConditions();
 
-f =lambda*( f + alpha/runTime.time() * (Ui - U) );
+f = lambda*( f + alpha/runTime.time() * (Ui - U) );
 
 fvOptions.correct(U);

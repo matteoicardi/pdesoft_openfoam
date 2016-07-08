@@ -17,12 +17,12 @@ FoamFile
 
 ddtSchemes
 {
-    default         Euler;
+    default         backward;
 }
 
 gradSchemes
 {
-    default         Gauss linear;
+    default         pointCellsLeastSquares;
 }
 
 divSchemes

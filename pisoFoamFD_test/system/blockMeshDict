@@ -14,12 +14,12 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-convertToMeters 1.0;
-xInlet 0;
-xOutlet  10;
+convertToMeters 0.01;
+xInlet -5;
+xOutlet  5;
 xResolution 150;
 
-ycStart 0;
+ycStart -0.1;
 ycyclicLength  0.1; //dp = 2, i.e., 4 diameters per box
 ycyclicResolution 1;
 
