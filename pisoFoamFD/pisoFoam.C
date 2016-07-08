@@ -39,6 +39,8 @@ Description
 #include "pisoControl.H"
 #include "fvIOoptionList.H"
 
+#include "triSurfaceMesh.H"  // for fd read from stl file
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])

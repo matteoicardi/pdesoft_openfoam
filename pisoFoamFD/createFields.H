@@ -37,7 +37,8 @@ volScalarField lambda
         IOobject::MUST_READ,
         IOobject::AUTO_WRITE
     ),
-    mesh
+    mesh,
+    dimensionedScalar("zero",dimless,0) // initialising to 0
 );
 
 Info<< "Reading field f\n" << endl;
@@ -70,3 +71,46 @@ autoPtr<incompressible::turbulenceModel> turbulence
 (
     incompressible::turbulenceModel::New(U, phi, laminarTransport)
 );
+
+// * * * * *  Reading triSurface stl description of the geometry * * * * * * //        
+IOdictionary fdDict
+(
+        IOobject
+        (
+            "fdDict",
+            runTime.constant(),
+            mesh,
+            IOobject::MUST_READ,
+            IOobject::NO_WRITE
+        )
+);
+
+word fdName_( fdDict.lookup("fdName") );
+
+triSurfaceMesh fdSurf_
+(
+    IOobject
+    (
+        fdName_+".stl",
+        runTime.constant(),
+        "triSurface",
+        runTime,
+        IOobject::MUST_READ,
+        IOobject::NO_WRITE
+    )
+);
+
+Info<< "Read Immersed Boundary triSurface" << endl;
+fdSurf_.writeStats(Info);
+
+triSurface fdTemp( fdSurf_ );
+triSurfaceSearch fdTriSurfSearch( fdTemp );
+boolList centresInside = fdTriSurfSearch.calcInside( mesh.cellCentres() );
+
+forAll(mesh.C(),cellI)
+{
+    if ( centresInside[cellI] )
+    {
+        lambda[cellI] = 1.;
+    }
+}
