@@ -40,16 +40,5 @@ U.correctBoundaryConditions();
 f = lambda*( f + alpha/runTime.time() * (Ui - U) );
 
 fvOptions.correct(U);
-
-forAll(U,cellI)
-{
- if(lambda[cellI]>0.99)
- {
-  if( mag(U[cellI] - Ui[cellI]) < tolerance_  ) Uimposed_=true;
-  else
-  {
-   Uimposed_=false;
-   break;
-  }
- }
-}
+Info << gMax(volScalarField(lambda * mag(U - Ui)))   << endl;
+if( gMax(volScalarField(lambda * mag(U - Ui))) < tolerance_ * gMax(volScalarField(mag(U))) )   Uimposed_=true;

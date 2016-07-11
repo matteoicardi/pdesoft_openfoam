@@ -93,6 +93,9 @@ bool use_stl(fdDict.lookup("useSTL"));
 
 scalar alpha=readScalar(fdDict.lookup("alpha"));
 
+scalar tolerance=readScalar(fdDict.lookup("tolerance"));
+scalar tolerance_=max(1e-20,min(1e-2,tolerance));
+
 if (use_stl)
 {
 triSurfaceMesh fdSurf_

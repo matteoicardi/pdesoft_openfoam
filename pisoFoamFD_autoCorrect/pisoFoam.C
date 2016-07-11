@@ -37,8 +37,8 @@ Description
 #include "singlePhaseTransportModel.H"
 #include "turbulentTransportModel.H"
 #include "pisoControl.H"
-//#include "fvOptions.H" // OF 4.x
-#include "fvIOoptionList.H"  // OF 3
+#include "fvOptions.H" // OF 4.x
+//#include "fvIOoptionList.H"  // OF 3
 
 #include "triSurfaceMesh.H"  // for fd read from stl file
 
@@ -64,8 +64,6 @@ int main(int argc, char *argv[])
     volVectorField Ui("Ui",U);
     Ui=solidvel;
     
-    scalar tolerance_ = 0.01;
-
     while (runTime.loop())
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;
@@ -78,9 +76,11 @@ int main(int argc, char *argv[])
 
             // --- PISO loop
             bool Uimposed_=false;
-            while (piso.correct() || !Uimposed_)
+            label nloops=0;
+            while ((piso.correct() || !Uimposed_) && nloops<20)
             {
                 #include "pEqn.H"
+                nloops++;
             }
         }
 
